@@ -26,10 +26,8 @@ IN_GITHUB_ACTIONS = os.getenv("GITHUB_ACTIONS") == "true"
 
 # MLflow Tracking URI
 if IN_GITHUB_ACTIONS:
-    # Local tracking (for CI/CD)
     MLFLOW_TRACKING_URI = "file:./mlruns"
 else:
-    # Use MLflow tracking server (Docker network)
     MLFLOW_TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI", "http://mlflow:5000")
 
 mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
@@ -39,16 +37,10 @@ mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
 # =====================================
 
 def load_data():
-    """Load the California housing dataset"""
     housing = fetch_california_housing(as_frame=True)
-    X = housing.data
-    y = housing.target
-    feature_names = housing.feature_names
-    return X, y, feature_names
-
+    return housing.data, housing.target, housing.feature_names
 
 def evaluate_model(model, X_test, y_test):
-    """Evaluate model performance"""
     preds = model.predict(X_test)
     mse = mean_squared_error(y_test, preds)
     rmse = np.sqrt(mse)
@@ -59,9 +51,7 @@ def evaluate_model(model, X_test, y_test):
         'rmse': rmse
     }
 
-
 def save_metrics_to_file(metrics, filepath):
-    """Save metrics to a text file"""
     with open(filepath, 'w') as f:
         f.write("Model Evaluation Metrics\n")
         f.write("=" * 30 + "\n")
@@ -69,16 +59,13 @@ def save_metrics_to_file(metrics, filepath):
             f.write(f"{name.upper()}: {value:.6f}\n")
         f.write(f"\nGenerated at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
 
-
 def save_predictions_to_file(y_test, preds, filepath):
-    """Save actual vs predicted results"""
     df = pd.DataFrame({
         'actual': y_test,
         'predicted': preds,
         'error': y_test - preds
     })
     df.to_csv(filepath, index=False)
-
 
 # =====================================
 # Main function
@@ -106,15 +93,15 @@ def main():
         for k, v in metrics.items():
             mlflow.log_metric(k, v)
 
+        # ✅ Modern MLflow logging
         mlflow.sklearn.log_model(
-            model,
-            artifact_path="model",
+            sk_model=model,
+            name="CaliforniaHousePriceModel",
             input_example=X_train.iloc[:5]
         )
 
         for feature, coef in zip(feature_names, model.coef_):
             mlflow.log_metric(f"coef_{feature}", coef)
-
         mlflow.log_metric("intercept", model.intercept_)
 
         # Save and log result files
@@ -142,10 +129,10 @@ def main():
         joblib.dump(model, model_path)
         mlflow.log_artifact(model_path, "local_model")
 
-        print(" Model training complete!")
-        print(f" MLflow Tracking URI: {MLFLOW_TRACKING_URI}")
-        print(f" Metrics logged to MLflow at {MLFLOW_TRACKING_URI}")
-        print(f" Model saved locally at: {model_path}")
+        print("✅ Model training complete!")
+        print(f"📍 MLflow Tracking URI: {MLFLOW_TRACKING_URI}")
+        print(f"📊 Metrics logged to MLflow at {MLFLOW_TRACKING_URI}")
+        print(f"💾 Model saved locally at: {model_path}")
 
 
 if __name__ == "__main__":

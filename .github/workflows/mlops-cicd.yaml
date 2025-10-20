@@ -18,51 +18,57 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
+    - name: 🧩 Checkout repository
       uses: actions/checkout@v4
 
-    - name: Set up Python
+    - name: 🐍 Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.9'
 
-    - name: Install dependencies
+    - name: 📦 Install dependencies
       run: |
-        echo "Installing dependencies..."
         python -m pip install --upgrade pip
         pip install -r backend/requirements.txt
 
-    - name: Train model and log to MLflow
+    - name: 🧠 Train model and log to MLflow
       working-directory: backend
       env:
         MLFLOW_TRACKING_URI: ${{ env.MLFLOW_TRACKING_URI }}
+        GITHUB_ACTIONS: true
       run: |
         echo "Starting model training..."
         python train.py
         echo "Training completed and metrics logged to MLflow!"
 
-    - name: Set up Docker Buildx
+    # ✅ Upload MLflow logs as artifact (so you can view experiment results)
+    - name: 📤 Upload MLflow artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: mlflow-runs
+        path: backend/../mlruns
+
+    - name: 🧱 Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
-    - name: Log in to Docker Hub
+    - name: 🔐 Log in to Docker Hub
       uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Build and push Backend image
+    - name: 🐳 Build and push Backend image
       run: |
-        echo "Building backend Docker image..."
         docker build -t ${{ env.BACKEND_IMAGE }} ./backend
         docker push ${{ env.BACKEND_IMAGE }}
 
-    - name: Build and push Frontend image
+    - name: 🧭 Build and push Frontend image
       run: |
-        echo "Building frontend Docker image..."
         docker build -t ${{ env.FRONTEND_IMAGE }} ./frontend
         docker push ${{ env.FRONTEND_IMAGE }}
 
-    - name: Deploy to EC2
+    # ✅ Optional: Deploy to EC2
+    - name: 🚀 Deploy to EC2
       if: github.ref == 'refs/heads/master'
       uses: appleboy/ssh-action@v0.1.10
       with:
@@ -70,10 +76,8 @@ jobs:
         username: ubuntu
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
-          echo "Connecting to EC2..."
           cd ~/mlops-house-price
-          git pull origin master
-          echo "Pulling latest Docker images..."
+          git pull origin main
           docker compose down
           docker compose pull
           docker compose up -d

@@ -24,9 +24,12 @@ os.makedirs(RESULTS_DIR, exist_ok=True)
 # Detect if running in GitHub Actions
 IN_GITHUB_ACTIONS = os.getenv("GITHUB_ACTIONS") == "true"
 
-# MLflow Tracking URI
+# MLflow Tracking URI Setup
 if IN_GITHUB_ACTIONS:
-    MLFLOW_TRACKING_URI = "file:./mlruns"
+    # ✅ Ensure mlruns is inside the repo and writable
+    MLFLOW_DIR = os.path.join(BASE_DIR, "..", "mlruns")
+    os.makedirs(MLFLOW_DIR, exist_ok=True)
+    MLFLOW_TRACKING_URI = f"file:{MLFLOW_DIR}"
 else:
     MLFLOW_TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI", "http://mlflow:5000")
 
@@ -93,11 +96,12 @@ def main():
         for k, v in metrics.items():
             mlflow.log_metric(k, v)
 
-        # ✅ Modern MLflow logging
+        # ✅ Modern MLflow logging (fixed `name` deprecation)
         mlflow.sklearn.log_model(
             sk_model=model,
-            name="CaliforniaHousePriceModel",
-            input_example=X_train.iloc[:5]
+            artifact_path="model",
+            input_example=X_train.iloc[:5],
+            registered_model_name="CaliforniaHousePriceModel"
         )
 
         for feature, coef in zip(feature_names, model.coef_):

@@ -27,28 +27,37 @@ jobs:
         python-version: '3.9'
 
     - name: 📦 Install dependencies
-      working-directory: backend
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install -r backend/requirements.txt
 
     - name: 🧠 Train model and log to MLflow
       working-directory: backend
       env:
         MLFLOW_TRACKING_URI: ${{ env.MLFLOW_TRACKING_URI }}
+        GITHUB_ACTIONS: true
       run: |
-        echo "🚀 Starting model training..."
+        echo "Starting model training..."
         python train.py
-        echo "✅ Training completed and metrics logged to MLflow!"
+        echo "Training completed and metrics logged to MLflow!"
 
+    # ✅ Upload MLflow logs as artifact (so you can view experiment results)
     - name: 📤 Upload MLflow artifacts
       uses: actions/upload-artifact@v4
       with:
         name: mlflow-runs
-        path: mlruns/
+        path: backend/mlruns
 
-    - name: 🧱 Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
+    # ✅ Retry setup for Docker Buildx to avoid 500 errors
+    - name: 🧱 Set up Docker Buildx (with retry)
+      run: |
+        echo "Setting up Docker Buildx with retry..."
+        for i in 1 2 3; do
+          echo "Attempt $i..."
+          docker buildx create --use || sleep 10
+          docker buildx inspect --bootstrap && break
+        done
+        echo "✅ Docker Buildx ready!"
 
     - name: 🔐 Log in to Docker Hub
       uses: docker/login-action@v3
@@ -66,6 +75,7 @@ jobs:
         docker build -t ${{ env.FRONTEND_IMAGE }} ./frontend
         docker push ${{ env.FRONTEND_IMAGE }}
 
+    # ✅ Optional: Deploy to EC2
     - name: 🚀 Deploy to EC2
       if: github.ref == 'refs/heads/master'
       uses: appleboy/ssh-action@v0.1.10
@@ -74,10 +84,9 @@ jobs:
         username: ubuntu
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
-          set -e
           cd ~/mlops-house-price
           git pull origin master
           docker compose down
           docker compose pull
           docker compose up -d
-          echo "🎉 Deployment completed successfully!"
+          echo "✅ Deployment complete!"

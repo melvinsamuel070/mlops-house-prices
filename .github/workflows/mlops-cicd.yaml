@@ -27,26 +27,25 @@ jobs:
         python-version: '3.9'
 
     - name: 📦 Install dependencies
+      working-directory: backend
       run: |
         python -m pip install --upgrade pip
-        pip install -r backend/requirements.txt
+        pip install -r requirements.txt
 
     - name: 🧠 Train model and log to MLflow
       working-directory: backend
       env:
         MLFLOW_TRACKING_URI: ${{ env.MLFLOW_TRACKING_URI }}
-        GITHUB_ACTIONS: true
       run: |
-        echo "Starting model training..."
+        echo "🚀 Starting model training..."
         python train.py
-        echo "Training completed and metrics logged to MLflow!"
+        echo "✅ Training completed and metrics logged to MLflow!"
 
-    # ✅ Upload MLflow logs as artifact (so you can view experiment results)
     - name: 📤 Upload MLflow artifacts
       uses: actions/upload-artifact@v4
       with:
         name: mlflow-runs
-        path: backend/../mlruns
+        path: mlruns/
 
     - name: 🧱 Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
@@ -67,7 +66,6 @@ jobs:
         docker build -t ${{ env.FRONTEND_IMAGE }} ./frontend
         docker push ${{ env.FRONTEND_IMAGE }}
 
-    # ✅ Optional: Deploy to EC2
     - name: 🚀 Deploy to EC2
       if: github.ref == 'refs/heads/master'
       uses: appleboy/ssh-action@v0.1.10
@@ -76,9 +74,10 @@ jobs:
         username: ubuntu
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
+          set -e
           cd ~/mlops-house-price
-          git pull origin main
+          git pull origin master
           docker compose down
           docker compose pull
           docker compose up -d
-          echo "✅ Deployment complete!"
+          echo "🎉 Deployment completed successfully!"

@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>California House Price Predictor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .location-preset {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 4px solid #3498db;
+        }
+
+        .preset-label {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .feature-info {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .result {
+            display: none;
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid #27ae60;
+        }
+
+        .result h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .price-display {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #27ae60;
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .category {
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 20px;
+            display: inline-block;
+            margin: 10px auto;
+        }
+
+        .category-Low {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .category-Medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .category-High {
+            background: #ffeaa7;
+            color: #e17055;
+        }
+
+        .category-Luxury {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .result p {
+            margin: 8px 0;
+            color: #555;
+        }
+
+        .result em {
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .price-display {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏡 California House Price Predictor</h1>
+        <div class="subtitle">Get instant price estimates for properties across California</div>
+        
+        <!-- Location Presets -->
+        <div class="location-preset">
+            <div class="preset-label">📍 Quick Location Presets:</div>
+            <select id="locationPreset" onchange="fillPreset()">
+                <option value="">Select a California city...</option>
+                <option value="san_francisco">San Francisco Bay Area</option>
+                <option value="los_angeles">Los Angeles</option>
+                <option value="san_diego">San Diego</option>
+                <option value="sacramento">Sacramento</option>
+                <option value="fresno">Fresno</option>
+            </select>
+            <div class="feature-info">Select a city to auto-fill typical values</div>
+        </div>
+
+        <form id="predictionForm">
+            <div class="form-group">
+                <label for="MedInc">Median Income ($10,000s):</label>
+                <input type="number" step="0.1" id="MedInc" name="MedInc" value="5.0" min="0.5" max="15.0" required>
+                <div class="feature-info">Typical: 0.5 - 15.0</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="HouseAge">House Age (years):</label>
+                <input type="number" id="HouseAge" name="HouseAge" value="25" min="1" max="52" required>
+                <div class="feature-info">Typical: 1 - 52 years</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="AveRooms">Average Rooms:</label>
+                <input type="number" step="0.1" id="AveRooms" name="AveRooms" value="5.0" min="0.8" max="140" required>
+                <div class="feature-info">Typical: 0.8 - 140</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="AveBedrms">Average Bedrooms:</label>
+                <input type="number" step="0.1" id="AveBedrms" name="AveBedrms" value="1.0" min="0.3" max="40" required>
+                <div class="feature-info">Typical: 0.3 - 40</div>
+            </div>
+
+            <div class="form-group">
+                <label for="Population">Population:</label>
+                <input type="number" step="1" id="Population" name="Population" value="1500" min="3" max="35000" required>
+                <div class="feature-info">Typical: 3 - 35,000</div>
+            </div>
+
+            <div class="form-group">
+                <label for="AveOccup">Average Occupancy:</label>
+                <input type="number" step="0.1" id="AveOccup" name="AveOccup" value="3.0" min="0.7" max="1200" required>
+                <div class="feature-info">Typical: 0.7 - 1,200</div>
+            </div>
+
+            <div class="form-group">
+                <label for="Latitude">Latitude:</label>
+                <input type="number" step="0.01" id="Latitude" name="Latitude" value="34.0" min="32.5" max="42.0" required>
+                <div class="feature-info">California: 32.5° - 42.0°</div>
+            </div>
+
+            <div class="form-group">
+                <label for="Longitude">Longitude:</label>
+                <input type="number" step="0.01" id="Longitude" name="Longitude" value="-118.0" min="-124.3" max="-114.3" required>
+                <div class="feature-info">California: -124.3° - -114.3°</div>
+            </div>
+            
+            <button type="submit">🚀 Predict House Price</button>
+        </form>
+
+        <!-- Loading Spinner -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Analyzing property data...</p>
+        </div>
+        
+        <!-- Results -->
+        <div id="result" class="result">
+            <h3>💰 Prediction Result</h3>
+            <div class="price-display" id="priceDisplay"></div>
+            <div class="category" id="priceCategory"></div>
+            <p><strong>Prediction Confidence:</strong> <span id="confidence">Based on California housing data patterns</span></p>
+            <p><strong>Processing Time:</strong> <span id="processingTime"></span></p>
+            <p><em id="resultNote"></em></p>
+        </div>
+    </div>
+
+    <script>
+        // City presets data
+        const cityPresets = {
+            san_francisco: { 
+                MedInc: 12.0, HouseAge: 30, AveRooms: 7.5, AveBedrms: 1.2, 
+                Population: 500, AveOccup: 2.2, Latitude: 37.77, Longitude: -122.41 
+            },
+            los_angeles: { 
+                MedInc: 6.0, HouseAge: 25, AveRooms: 5.5, AveBedrms: 1.1, 
+                Population: 1500, AveOccup: 3.0, Latitude: 34.05, Longitude: -118.24 
+            },
+            san_diego: { 
+                MedInc: 5.0, HouseAge: 15, AveRooms: 4.5, AveBedrms: 1.1, 
+                Population: 800, AveOccup: 2.8, Latitude: 32.71, Longitude: -117.16 
+            },
+            sacramento: { 
+                MedInc: 4.0, HouseAge: 35, AveRooms: 4.0, AveBedrms: 1.0, 
+                Population: 1200, AveOccup: 3.2, Latitude: 38.58, Longitude: -121.49 
+            },
+            fresno: { 
+                MedInc: 3.5, HouseAge: 40, AveRooms: 3.5, AveBedrms: 1.0, 
+                Population: 2000, AveOccup: 3.5, Latitude: 36.74, Longitude: -119.78 
+            }
+        };
+
+        function fillPreset() {
+            const preset = document.getElementById('locationPreset').value;
+            if (preset && cityPresets[preset]) {
+                const data = cityPresets[preset];
+                for (const [key, value] of Object.entries(data)) {
+                    const input = document.getElementById(key);
+                    if (input) input.value = value;
+                }
+            }
+        }
+
+        document.getElementById('predictionForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Show loading spinner
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('result').style.display = 'none';
+            
+            const formData = new FormData(this);
+            const data = {
+                MedInc: parseFloat(formData.get('MedInc')),
+                HouseAge: parseFloat(formData.get('HouseAge')),
+                AveRooms: parseFloat(formData.get('AveRooms')),
+                AveBedrms: parseFloat(formData.get('AveBedrms')),
+                Population: parseFloat(formData.get('Population')),
+                AveOccup: parseFloat(formData.get('AveOccup')),
+                Latitude: parseFloat(formData.get('Latitude')),
+                Longitude: parseFloat(formData.get('Longitude'))
+            };
+
+            try {
+                // Use relative path for containerized environment
+                const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:8000' : '/api';
+                
+                const response = await fetch(`${API_URL}/predict`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`API Error: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                
+                // Hide loading spinner
+                document.getElementById('loading').style.display = 'none';
+                
+                // Display results
+                document.getElementById('priceDisplay').textContent = result.price_in_dollars;
+                document.getElementById('priceCategory').textContent = result.price_category + ' Price Range';
+                document.getElementById('priceCategory').className = `category category-${result.price_category}`;
+                document.getElementById('processingTime').textContent = result.processing_time;
+                document.getElementById('resultNote').textContent = result.note;
+                
+                document.getElementById('result').style.display = 'block';
+                
+            } catch (error) {
+                document.getElementById('loading').style.display = 'none';
+                alert('❌ Error making prediction: ' + error.message + '\n\nMake sure your API is running and accessible.');
+                console.error('Prediction error:', error);
+            }
+        });
+
+        // Input validation
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            input.addEventListener('change', function() {
+                const value = parseFloat(this.value);
+                const min = parseFloat(this.min);
+                const max = parseFloat(this.max);
+
+                if (value < min) {
+                    this.value = min;
+                    alert(`Value cannot be less than ${min}`);
+                } else if (value > max) {
+                    this.value = max;
+                    alert(`Value cannot be greater than ${max}`);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

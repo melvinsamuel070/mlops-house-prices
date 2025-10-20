@@ -1,0 +1,3 @@
+2025-10-16 10:48:29,112 - __main__ - ERROR - ❌ Error loading model from /home/melvin/mlops-house-price/backend/../models/house_price_model.pkl: [Errno 2] No such file or directory: '/home/melvin/mlops-house-price/backend/../models/house_price_model.pkl'
+2025-10-16 10:48:30,478 - __mp_main__ - ERROR - ❌ Error loading model from /home/melvin/mlops-house-price/backend/../models/house_price_model.pkl: [Errno 2] No such file or directory: '/home/melvin/mlops-house-price/backend/../models/house_price_model.pkl'
+2025-10-16 10:48:30,615 - app - ERROR - ❌ Error loading model from /home/melvin/mlops-house-price/backend/../models/house_price_model.pkl: [Errno 2] No such file or directory: '/home/melvin/mlops-house-price/backend/../models/house_price_model.pkl'

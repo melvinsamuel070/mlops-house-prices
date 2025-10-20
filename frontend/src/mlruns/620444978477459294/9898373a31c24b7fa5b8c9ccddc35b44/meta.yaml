@@ -1,0 +1,14 @@
+artifact_uri: file:///home/melvin/mlops-house-price/src/mlruns/620444978477459294/9898373a31c24b7fa5b8c9ccddc35b44/artifacts
+end_time: 1760133021391
+entry_point_name: ''
+experiment_id: '620444978477459294'
+lifecycle_stage: active
+run_id: 9898373a31c24b7fa5b8c9ccddc35b44
+run_name: honorable-koi-528
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1760133017955
+status: 3
+tags: []
+user_id: melvin

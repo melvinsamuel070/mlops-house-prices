@@ -1,0 +1,14 @@
+scrape_configs:
+  - job_name: 'backend'
+    static_configs:
+      - targets: ['backend:8000']
+    metrics_path: /metrics  # or /metrics if you choose Solution 2
+    scrape_interval: 15s
+
+  # - job_name: 'mlflow'
+  #   static_configs:
+  #     - targets: ['mlflow:5000']
+  #   metrics_path: /app-metrics
+  #   scrape_interval: 15s
+  #   # If MLflow doesn't have metrics, you might need to disable it
+  #   # or find the correct endpoint

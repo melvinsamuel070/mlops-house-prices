@@ -1,0 +1,10 @@
+artifact_location: /home/melvin/mlops-house-price/src/../mlruns/907914674937507385/models/m-570f2ecc496846f7ae793cf6854b7cd0/artifacts
+creation_timestamp: 1760133609727
+experiment_id: '907914674937507385'
+last_updated_timestamp: 1760133613323
+model_id: m-570f2ecc496846f7ae793cf6854b7cd0
+model_type: null
+name: model
+source_run_id: 3efc2f20f46c40b7995915bceb022deb
+status: 2
+status_message: null

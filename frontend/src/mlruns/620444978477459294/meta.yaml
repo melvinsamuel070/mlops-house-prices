@@ -1,0 +1,6 @@
+artifact_location: file:///home/melvin/mlops-house-price/src/mlruns/620444978477459294
+creation_time: 1760132865594
+experiment_id: '620444978477459294'
+last_update_time: 1760132865594
+lifecycle_stage: active
+name: california_house_price_prediction

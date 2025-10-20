@@ -1,0 +1,22 @@
+artifact_path: file:///home/melvin/mlops-house-price/src/mlruns/620444978477459294/models/m-f047a983d9674493ae1c3366fcaefedb/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.12.3
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.7.2
+mlflow_version: 3.4.0
+model_id: m-f047a983d9674493ae1c3366fcaefedb
+model_size_bytes: 724
+model_uuid: m-f047a983d9674493ae1c3366fcaefedb
+prompts: null
+run_id: 9898373a31c24b7fa5b8c9ccddc35b44
+utc_time_created: '2025-10-10 21:50:17.994307'

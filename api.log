@@ -1,0 +1,58 @@
+2025-10-10 23:49:47,949 - src.predict - INFO - ✅ Model loaded successfully.
+2025-10-10 23:50:00,979 - src.predict - INFO - GET /docs - Status: 200 - Time: 0.0011s
+2025-10-10 23:50:01,473 - src.predict - INFO - GET /openapi.json - Status: 200 - Time: 0.0128s
+2025-10-10 23:50:11,012 - src.predict - INFO - Prediction: $415,194.31, Processing time: 0.0019s
+2025-10-10 23:50:11,012 - src.predict - INFO - Successful prediction: High category, $415,194.31
+2025-10-10 23:50:11,013 - src.predict - INFO - POST /predict - Status: 200 - Time: 0.0049s
+2025-10-10 23:52:38,470 - src.predict - INFO - POST /predict - Status: 422 - Time: 0.0015s
+2025-10-10 23:54:21,475 - src.predict - INFO - Prediction: $272,096.78, Processing time: 0.0005s
+2025-10-10 23:54:21,475 - src.predict - INFO - Successful prediction: Medium category, $272,096.78
+2025-10-10 23:54:21,476 - src.predict - INFO - POST /predict - Status: 200 - Time: 0.0020s
+2025-10-11 23:06:48,710 - src.predict - INFO - ✅ Model loaded successfully.
+2025-10-11 23:16:51,108 - __main__ - INFO - ✅ Model loaded successfully.
+2025-10-11 23:16:53,458 - __mp_main__ - INFO - ✅ Model loaded successfully.
+2025-10-11 23:16:53,565 - app - INFO - ✅ Model loaded successfully.
+2025-10-11 23:19:38,581 - app - INFO - GET /web - Status: 200 - Time: 0.0239s
+2025-10-11 23:19:38,801 - app - INFO - GET /favicon.ico - Status: 404 - Time: 0.0007s
+2025-10-11 23:21:22,766 - app - INFO - GET /docs - Status: 200 - Time: 0.0007s
+2025-10-11 23:21:23,273 - app - INFO - GET /openapi.json - Status: 200 - Time: 0.0151s
+2025-10-11 23:22:29,443 - app - INFO - GET /web - Status: 200 - Time: 0.0083s
+2025-10-11 23:22:33,260 - app - INFO - OPTIONS /predict - Status: 405 - Time: 0.0004s
+2025-10-11 23:22:42,081 - app - INFO - OPTIONS /predict - Status: 405 - Time: 0.0006s
+2025-10-11 23:44:45,730 - __main__ - INFO - ✅ Model loaded successfully.
+2025-10-11 23:44:50,026 - __mp_main__ - INFO - ✅ Model loaded successfully.
+2025-10-11 23:44:50,168 - __mp_main__ - INFO - ✅ Model loaded successfully.
+2025-10-11 23:44:50,302 - app - INFO - ✅ Model loaded successfully.
+2025-10-11 23:44:50,326 - app - INFO - ✅ Model loaded successfully.
+2025-10-11 23:44:50,600 - __mp_main__ - INFO - ✅ Model loaded successfully.
+2025-10-11 23:44:50,607 - __mp_main__ - INFO - ✅ Model loaded successfully.
+2025-10-11 23:44:50,732 - app - INFO - ✅ Model loaded successfully.
+2025-10-11 23:44:50,778 - app - INFO - ✅ Model loaded successfully.
+2025-10-11 23:45:08,661 - app - INFO - GET /web - Status: 200 - Time: 0.0542s
+2025-10-11 23:45:11,375 - app - INFO - OPTIONS /predict - Status: 200 - Time: 0.0028s
+2025-10-11 23:45:11,409 - app - INFO - Prediction: $252,071.52, Processing time: 0.0123s
+2025-10-11 23:45:11,409 - app - INFO - Successful prediction: Medium category, $252,071.52
+2025-10-11 23:45:11,412 - app - INFO - POST /predict - Status: 200 - Time: 0.0221s
+2025-10-12 00:08:23,393 - app - INFO - GET /web - Status: 200 - Time: 0.0027s
+2025-10-12 00:08:23,415 - app - INFO - GET /static/style.css - Status: 200 - Time: 0.0037s
+2025-10-12 00:08:42,852 - app - INFO - OPTIONS /predict - Status: 200 - Time: 0.0028s
+2025-10-12 00:08:42,885 - app - INFO - Prediction: $274,279.23, Processing time: 0.0036s
+2025-10-12 00:08:42,886 - app - INFO - Successful prediction: Medium category, $274,279.23
+2025-10-12 00:08:42,890 - app - INFO - POST /predict - Status: 200 - Time: 0.0217s
+2025-10-12 00:09:28,126 - app - INFO - GET /docs - Status: 200 - Time: 0.0097s
+2025-10-12 00:09:28,304 - app - INFO - GET /openapi.json - Status: 200 - Time: 0.0162s
+2025-10-12 00:13:02,170 - app - INFO - GET /web - Status: 200 - Time: 0.0051s
+2025-10-12 00:13:02,224 - app - INFO - GET /static/style.css - Status: 200 - Time: 0.0023s
+2025-10-12 00:13:03,883 - app - INFO - GET /web - Status: 200 - Time: 0.0040s
+2025-10-12 00:13:03,915 - app - INFO - GET /static/style.css - Status: 304 - Time: 0.0020s
+2025-10-12 00:13:25,235 - app - INFO - Prediction: $252,071.52, Processing time: 0.0049s
+2025-10-12 00:13:25,236 - app - INFO - Successful prediction: Medium category, $252,071.52
+2025-10-12 00:13:25,237 - app - INFO - POST /predict - Status: 200 - Time: 0.0153s
+2025-10-12 00:14:47,785 - app - INFO - GET /web - Status: 200 - Time: 0.0012s
+2025-10-12 00:14:47,799 - app - INFO - GET /static/style.css - Status: 200 - Time: 0.0026s
+2025-10-12 00:15:56,790 - app - INFO - GET /web - Status: 200 - Time: 0.0333s
+2025-10-12 00:15:56,810 - app - INFO - GET /static/style.css - Status: 200 - Time: 0.0037s
+2025-10-12 00:16:20,968 - app - INFO - GET /web - Status: 200 - Time: 0.0360s
+2025-10-12 00:16:21,007 - app - INFO - GET /static/style.css - Status: 200 - Time: 0.0044s
+2025-10-12 00:17:52,596 - app - INFO - GET /web - Status: 200 - Time: 0.0024s
+2025-10-12 00:17:52,619 - app - INFO - GET /static/style.css - Status: 200 - Time: 0.0015s

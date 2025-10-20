@@ -1,0 +1,14 @@
+artifact_uri: /home/melvin/mlops-house-price/src/../mlruns/907914674937507385/41156af6c2344062a4e391632a9fe498/artifacts
+end_time: 1760133438855
+entry_point_name: ''
+experiment_id: '907914674937507385'
+lifecycle_stage: active
+run_id: 41156af6c2344062a4e391632a9fe498
+run_name: linear_regression_20251010_225718
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1760133438822
+status: 4
+tags: []
+user_id: melvin

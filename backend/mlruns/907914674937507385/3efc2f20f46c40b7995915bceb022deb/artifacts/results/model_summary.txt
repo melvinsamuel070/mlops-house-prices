@@ -1,0 +1,17 @@
+Linear Regression Model Summary
+========================================
+Coefficients:
+  MedInc: 0.448675
+  HouseAge: 0.009724
+  AveRooms: -0.123323
+  AveBedrms: 0.783145
+  Population: -0.000002
+  AveOccup: -0.003526
+  Latitude: -0.419792
+  Longitude: -0.433708
+Intercept: -37.023278
+
+Training samples: 16512
+Test samples: 4128
+
+Generated at: 2025-10-10 23:00:13

@@ -1,0 +1,131 @@
+# FROM python:3.9-slim
+
+# WORKDIR /app
+
+# # Install system dependencies
+# RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+
+# # Copy requirements first for better caching
+# COPY requirements.txt .
+
+# # Install Python dependencies
+# RUN pip install --no-cache-dir -r requirements.txt
+
+# # Copy backend and models
+# COPY backend/ ./backend/
+# COPY models/ ./models/
+
+# # Set Python path
+# ENV PYTHONPATH=/app
+
+# # Expose port
+# EXPOSE 8000
+
+# # Health check
+# HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+#     CMD curl -f http://localhost:8000/health || exit 1
+
+# # Start the app
+# CMD ["uvicorn", "backend.app:app", "--host", "0.0.0.0", "--port", "8000"]
+
+
+
+
+# FROM python:3.9-slim
+
+# WORKDIR /app
+
+# # Install system dependencies
+# RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+
+# # Copy only requirements first
+# COPY requirements.txt .
+
+# # Install Python dependencies
+# RUN pip install --no-cache-dir -r requirements.txt
+
+# # Copy only what’s needed to run the backend app
+# COPY app.py .
+# COPY train.py .
+# COPY models/ ./models/
+# COPY static/ ./static/
+# COPY templates/ ./templates/
+# COPY data/ ./data/
+# COPY __init__.py .
+
+# # (Optional) If you use any utility or config folder, add them explicitly
+# # COPY utils/ ./utils/
+
+# # Set Python path
+# ENV PYTHONPATH=/app
+
+# # Expose backend port
+# EXPOSE 8000
+
+# # Health check
+# HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+#     CMD curl -f http://localhost:8000/health || exit 1
+
+# # Start the app
+# CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
+
+
+
+
+
+
+
+
+
+
+
+
+FROM python:3.9-slim as builder
+
+WORKDIR /app
+
+# Install system-level dependencies needed for building packages
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy and install Python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# -------- Stage 2: Final Runtime Stage --------
+FROM python:3.9-slim
+
+WORKDIR /app
+
+# Install curl for healthcheck
+RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
+
+# Copy installed Python packages from builder
+COPY --from=builder /usr/local /usr/local
+
+# Copy application code
+COPY app.py .
+COPY train.py .
+COPY models/ ./models/
+COPY static/ ./static/
+COPY templates/ ./templates/
+COPY data/ ./data/
+COPY __init__.py .
+
+# Environment variables
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONPATH=/app \
+    PORT=8000 \
+    ENVIRONMENT=production
+
+# Expose backend port
+EXPOSE 8000
+
+# Health check using curl
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
+    CMD curl -f http://localhost:8000/health || exit 1
+
+# Start the backend
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]

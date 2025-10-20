@@ -1,0 +1,116 @@
+# ======================================================
+#  PYTHON & ENVIRONMENT
+# ======================================================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+*.egg
+*.log
+*.sqlite3
+*.db
+*.coverage
+.coverage
+htmlcov/
+*.tmp
+*.temp
+.cache/
+temp/
+tmp/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Environment & secrets
+.env
+.env.local
+.env.production
+*.pem
+*.key
+*.crt
+*.json
+secrets.*
+config.local.*
+
+# ======================================================
+#  MACHINE LEARNING / EXPERIMENT TRACKING
+# ======================================================
+mlruns/
+mlartifacts/
+mlflow.db
+results/
+artifacts/
+notebooks/
+models/
+data/
+checkpoints/
+*.pt
+*.h5
+*.pkl
+*.joblib
+*.model
+*.pth
+
+# ======================================================
+#  FRONTEND (React / Next / Svelte)
+# ======================================================
+frontend/node_modules/
+frontend/.next/
+frontend/build/
+frontend/dist/
+frontend/.nuxt/
+frontend/.output/
+frontend/.svelte-kit/
+*.tsbuildinfo
+
+# ======================================================
+#  DOCKER
+# ======================================================
+.dockerignore
+docker-compose*.yml
+Dockerfile*
+.docker/
+
+# ======================================================
+#  DEVELOPMENT / IDE / VCS
+# ======================================================
+.git/
+.gitignore
+.gitattributes
+.idea/
+.vscode/
+.history/
+*.swp
+*.swo
+*~
+
+# ======================================================
+#  PROMETHEUS & MONITORING
+# ======================================================
+prometheus/data/
+grafana-data/
+alertmanager/data/
+
+# ======================================================
+#  SYSTEM / OS FILES
+# ======================================================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ======================================================
+#  DOCUMENTATION
+# ======================================================
+docs/_build/
+site/
+
+# ======================================================
+# TESTING
+# ======================================================
+.pytest_cache/
+.tox/
+test_results/

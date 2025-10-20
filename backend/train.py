@@ -21,8 +21,17 @@ RESULTS_DIR = os.path.join(BASE_DIR, "..", "results")
 os.makedirs(MODEL_DIR, exist_ok=True)
 os.makedirs(RESULTS_DIR, exist_ok=True)
 
-# Use MLflow Tracking Server (Docker internal hostname: "mlflow")
-MLFLOW_TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI", "http://mlflow:5000")
+# Detect if running in GitHub Actions
+IN_GITHUB_ACTIONS = os.getenv("GITHUB_ACTIONS") == "true"
+
+# MLflow Tracking URI
+if IN_GITHUB_ACTIONS:
+    # Local tracking (for CI/CD)
+    MLFLOW_TRACKING_URI = "file:./mlruns"
+else:
+    # Use MLflow tracking server (Docker network)
+    MLFLOW_TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI", "http://mlflow:5000")
+
 mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
 
 # =====================================

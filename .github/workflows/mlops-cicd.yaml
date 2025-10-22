@@ -75,18 +75,18 @@ jobs:
         docker build -t ${{ env.FRONTEND_IMAGE }} ./frontend
         docker push ${{ env.FRONTEND_IMAGE }}
 
-    # ✅ Optional: Deploy to EC2
-    - name: 🚀 Deploy to EC2
-      if: github.ref == 'refs/heads/master'
-      uses: appleboy/ssh-action@v0.1.10
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ubuntu
-        key: ${{ secrets.EC2_SSH_KEY }}
-        script: |
-          cd ~/mlops-house-price
-          git pull origin master
-          docker compose down
-          docker compose pull
-          docker compose up -d
-          echo "✅ Deployment complete!"
+    # # ✅ Optional: Deploy to EC2
+    # - name: 🚀 Deploy to EC2
+    #   if: github.ref == 'refs/heads/master'
+    #   uses: appleboy/ssh-action@v0.1.10
+    #   with:
+    #     host: ${{ secrets.EC2_HOST }}
+    #     username: ubuntu
+    #     key: ${{ secrets.EC2_SSH_KEY }}
+    #     script: |
+    #       cd ~/mlops-house-price
+    #       git pull origin master
+    #       docker compose down
+    #       docker compose pull
+    #       docker compose up -d
+    #       echo "✅ Deployment complete!"

@@ -219,12 +219,12 @@
 </head>
 <body>
     <div class="container">
-        <h1>🏡 California House Price Predictor</h1>
+        <h1> California House Price Predictor</h1>
         <div class="subtitle">Get instant price estimates for properties across California</div>
         
         <!-- Location Presets -->
         <div class="location-preset">
-            <div class="preset-label">📍 Quick Location Presets:</div>
+            <div class="preset-label"> Quick Location Presets:</div>
             <select id="locationPreset" onchange="fillPreset()">
                 <option value="">Select a California city...</option>
                 <option value="san_francisco">San Francisco Bay Area</option>
@@ -296,7 +296,7 @@
         
         <!-- Results -->
         <div id="result" class="result">
-            <h3>💰 Prediction Result</h3>
+            <h3> Prediction Result</h3>
             <div class="price-display" id="priceDisplay"></div>
             <div class="category" id="priceCategory"></div>
             <p><strong>Prediction Confidence:</strong> <span id="confidence">Based on California housing data patterns</span></p>
@@ -390,7 +390,7 @@
                 
             } catch (error) {
                 document.getElementById('loading').style.display = 'none';
-                alert('❌ Error making prediction: ' + error.message + '\n\nMake sure your API is running and accessible.');
+                alert(' Error making prediction: ' + error.message + '\n\nMake sure your API is running and accessible.');
                 console.error('Prediction error:', error);
             }
         });
